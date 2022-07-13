@@ -4,7 +4,7 @@ ROOKDIR=/home/sprabhu/dev/ocs/rook
 
 echo minikube: Start
 #minikube start --nodes=3 --extra-disks=2 --memory 4096 --cpus 2
-~/bin/mk_start
+~/bin-kube/mk_start
 
 #echo: Ad-server: install
 #cd $SMBOPERATORDIR
