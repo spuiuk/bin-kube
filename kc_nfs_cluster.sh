@@ -1,15 +1,8 @@
-SMBOPERATORDIR=/home/sprabhu/dev/ocs/samba-operator
 ROOKDIR=/home/sprabhu/dev/ocs/rook
-
 
 echo minikube: Start
 #minikube start --nodes=3 --extra-disks=2 --memory 4096 --cpus 2
 ~/bin-kube/mk_start
-
-#echo: Ad-server: install
-#cd $SMBOPERATORDIR
-#./tests/test-deploy-ad-server.sh
-#cd ..
 
 echo rook-ceph: Install
 kubectl create -f $ROOKDIR/deploy/examples/crds.yaml
