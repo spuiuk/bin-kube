@@ -14,10 +14,10 @@ echo minikube: Start
 echo rook-ceph: Install
 kubectl create -f $ROOKDIR/deploy/examples/crds.yaml
 kubectl create -f $ROOKDIR/deploy/examples/common.yaml
-#kubectl create -f $ROOKDIR/deploy/examples/operator.yaml
-# Copy over operator.yaml to operator-enablenfs.yaml and enable nfs in the yaml file
-kubectl create -f $ROOKDIR/deploy/examples/operator-enablenfs.yaml
-# Or edit ConfigMap before deploying cluster.yaml
+kubectl create -f $ROOKDIR/deploy/examples/operator.yaml
+# Patch configmap to enable NFS
+kubectl -n rook-ceph patch configmap/rook-ceph-operator-config --type merge \
+	-p '{"data":{"ROOK_CSI_ENABLE_NFS":"true"}}'
 kubectl create -f $ROOKDIR/deploy/examples/cluster.yaml
 
 echo rook-ceph: Wait for rook-ceph pods to come up
