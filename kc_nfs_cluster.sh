@@ -37,6 +37,7 @@ echo
 kubectl get storageclass
 echo
 
+# https://rook.github.io/docs/rook/v1.9/ceph-nfs-crd.html#ceph-csi-nfs-provisioner-and-nfs-csi-driver
 echo rook-ceph: enable nfs
 TOOLBOX_CONTAINER=$(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}')
 #kubectl -n rook-ceph exec -it $TOOLBOX_CONTAINER -- ceph mgr module enable rook
@@ -49,6 +50,7 @@ kubectl apply -f $ROOKDIR/deploy/examples/csi/nfs/rbac.yaml
 kubectl create -f $ROOKDIR/deploy/examples/nfs.yaml
 kubectl apply -f $ROOKDIR/deploy/examples/csi/nfs/storageclass.yaml
 
+# https://rook.github.io/docs/rook/v1.9/ceph-nfs-crd.html#creating-exports
 echo rook-nfs: Setup demo
 kubectl apply -f $ROOKDIR/deploy/examples/csi/nfs/pvc.yaml
 kubectl apply -f $ROOKDIR/deploy/examples/csi/nfs/pod.yaml
