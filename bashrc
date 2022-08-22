@@ -4,3 +4,4 @@ alias kc=kubectl
 alias ks=kcsmb
 alias kr=kcrook
 
+export PATH=$PATH:~/bin-kube/
