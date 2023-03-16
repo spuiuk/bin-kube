@@ -2,5 +2,5 @@
 # sudo install minikube-linux-amd64 /usr/local/bin/minikube
 if ! minikube status|grep Running
 then
-	/usr/local/bin/minikube start --driver=kvm2 --nodes=3 --extra-disks=2 --memory 4096 --cpus 2
+	/usr/local/bin/minikube start --driver=kvm2 --nodes=3 --extra-disks=2 --memory 4096 --cpus 2 --extra-config=apiserver.service-node-port-range=1-65535
 fi
