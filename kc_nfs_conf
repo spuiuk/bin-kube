@@ -1,0 +1,43 @@
+if [ "x$1" == "x" ]
+then
+	echo "Usage: $0 <nfs-share>"
+	exit
+fi
+
+KUBECTL_CMD="kubectl -n rook-ceph"
+CEPHNFS_NAME=$1
+TOOLS_POD=$(${KUBECTL_CMD} get pods|grep ^rook-ceph-tools|awk '{print $1}')
+NFS_POD=$(${KUBECTL_CMD} get pods|grep ^rook-ceph-nfs-${CEPHNFS_NAME}-a|awk '{print $1}')
+
+
+if [ "x${NFS_POD}" == "x" ]
+then
+	echo "Corresponding pod not found"
+	exit
+fi
+
+echo ganesha.conf
+${KUBECTL_CMD} exec -it ${NFS_POD} -c nfs-ganesha -- cat /etc/ganesha/ganesha.conf | tee /tmp/ganesha.conf
+echo
+
+NFS_URL=`grep ^%url /tmp/ganesha.conf|sed 's/\r$//'|awk '{print $2}'`
+echo $NFS_URL
+read POOL NS OB < <(echo ${NFS_URL}|sed 's/\// /g'|sed 's/rados://'|awk '{print $1" "$2" "$3}')
+echo
+echo pool ${POOL} namespace ${NS} object ${OB}
+echo
+
+echo fetch ${OB}
+${KUBECTL_CMD} exec -it ${TOOLS_POD} -- rados -p "${POOL}" -N "${NS}" get ${OB} /tmp/nfs.conf 
+${KUBECTL_CMD} exec -it ${TOOLS_POD} -- cat /tmp/nfs.conf |tee /tmp/nfs.conf
+echo $URL2
+echo
+
+for OB2 in `grep url /tmp/nfs.conf|sed 's/\// /g'|awk '{print $5}'|sed 's/"\r$//'`
+do
+	echo fetch second part ${OB2}
+	${KUBECTL_CMD} exec -it ${TOOLS_POD} -- rados -p ${POOL} -N ${NS} get ${OB2} /tmp/conf2
+	${KUBECTL_CMD} exec -it ${TOOLS_POD} -- cat /tmp/conf2
+	echo
+done
+exit
