@@ -13,7 +13,7 @@ read AD_POD_NAME AD_POD_IP < <(${KUBECTL_CMD}  get pod -o json \
 	| ${JQ_CMD} -c -M '.items[] | .metadata.name + " " + .status.podIP' \
 	| grep samba-ad-server \
 	| tr -d "\"")
-if ![ $? -eq 0 ]
+if ! [ $? -eq 0 ]
 then
 		echo "Error getting ad server pod IP"
 		exit 1
