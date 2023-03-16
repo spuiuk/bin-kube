@@ -1,0 +1,10 @@
+KUBECTL_CMD="kubectl -n rook-ceph"
+TOOLS_POD=$(${KUBECTL_CMD} get pods -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}')
+
+CMD="$@"
+if [ -z $1 ]
+then
+	CMD="/bin/bash"
+fi
+
+${KUBECTL_CMD} exec -it ${TOOLS_POD} -- ${CMD}
