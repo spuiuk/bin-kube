@@ -5,3 +5,5 @@ alias ks=kcsmb
 alias kr=kcrook
 
 export PATH=$PATH:~/bin-kube/
+
+alias my-nfs="kr get pods|grep ^rook-ceph-nfs-my-nfs-a|sed 's/ .*//'"
