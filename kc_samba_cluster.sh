@@ -1,4 +1,4 @@
-ROOKDIR=/home/sprabhu/dev/ocs/rook
+ROOKDIR=/home/sprabhu/data/ocs/rook
 echo minikube: Start
 #minikube start --nodes=3 --extra-disks=2 --memory 4096 --cpus 2
 ~/bin-kube/mk_start

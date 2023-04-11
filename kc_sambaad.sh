@@ -1,4 +1,4 @@
-SMBOPERATORDIR=/home/sprabhu/dev/ocs/samba-operator
+SMBOPERATORDIR=/home/sprabhu/data/ocs/samba-operator
 KUBECTL_CMD=${KUBECTL_CMD:-kubectl}
 JQ_CMD=${JQ_CMD:-jq}
 
