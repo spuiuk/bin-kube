@@ -53,7 +53,7 @@ kubectl create -f $ROOKDIR/deploy/examples/nfs.yaml
 #short delay to allow ceph-nfs to comeup
 sleep 10
 # Create the nfs export
-kr_ceph_tools ceph nfs export create cephfs my-nfs /myfs myfs
+kc_ceph_tools ceph nfs export create cephfs my-nfs /myfs myfs
 
 
 #TOOLBOX_CONTAINER=$(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}')
