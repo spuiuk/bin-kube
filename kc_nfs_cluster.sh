@@ -50,10 +50,15 @@ echo rook-ceph: setup cephnfs sample.
 # Create CephNFS resource - my-nfs from rook samples
 kubectl create -f $ROOKDIR/deploy/examples/nfs.yaml
 
-#short delay to allow ceph-nfs to comeup
-sleep 10
-# Create the nfs export
-kc_ceph_tools ceph nfs export create cephfs my-nfs /myfs myfs
+echo ceph-csi: Install - Create roles required for ceph-csi
+kubectl apply -f $ROOKDIR/deploy/examples/csi/nfs/rbac.yaml
+echo ceph-csi: Install - Install ceph-csi nfs storage class
+kubectl apply -f $ROOKDIR/deploy/examples/csi/nfs/storageclass.yaml
+echo ceph-csi: Create pvc which will be exported as NFS share
+kubectl apply -f $ROOKDIR/deploy/examples/csi/nfs/pvc.yaml
+
+# Manually Create the nfs export
+#kc_ceph_tools ceph nfs export create cephfs my-nfs /myfs myfs
 
 
 #TOOLBOX_CONTAINER=$(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}')
