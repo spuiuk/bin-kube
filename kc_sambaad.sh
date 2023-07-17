@@ -27,7 +27,7 @@ cat > "${TMPFILE}" <<EOF
 data:
   Corefile: |
 EOF
-${KUBECTL_CMD} get cm -n kube-system coredns -o jsonpath='{ .data.Corefile }'| grep -v dc1.domain1.sink.test.localhost|sed 's/hosts {/hosts {\n       xx.xx.xx.xx dc1.domain1.sink.test.localhost/'|sed "s/xx.xx.xx.xx/${AD_POD_IP}/" |sed 's/^/    /g' >> ${TMPFILE}
+${KUBECTL_CMD} get cm -n kube-system coredns -o jsonpath='{ .data.Corefile }'| grep -v dc1.domain1.sink.test|sed 's/hosts {/hosts {\n       xx.xx.xx.xx dc1.domain1.sink.test/'|sed "s/xx.xx.xx.xx/${AD_POD_IP}/" |sed 's/^/    /g' >> ${TMPFILE}
 ${KUBECTL_CMD} patch cm -n kube-system coredns -p "$(cat "${TMPFILE}")"
 
 # Create configMap with ca.crt
